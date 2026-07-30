@@ -12,12 +12,13 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Setup Theos
+    - name: Setup Theos & Packaging Tools
       run: |
         git clone https://github.com/theos/theos.git ~/theos
-        # Remove a pasta sdks caso ela venha vazia ou com conflito, e clona direto
         rm -rf ~/theos/sdks
         git clone https://github.com/theos/sdks.git ~/theos/sdks
+        # Instala o dpkg e ferramentas necessárias para o dm.pl via Homebrew
+        brew install dpkg ldid
 
     - name: Build Package
       run: |
