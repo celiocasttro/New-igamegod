@@ -9,26 +9,16 @@ uint64_t getRealOffset(uint64_t offset) {
     return slide + offset;
 }
 
-// Exemplo de ponteiro para a função original do jogo
-int (*orig_gameFunction)(void *self);
-
-// Sua função modificada (Hook)
-int hooked_gameFunction(void *self) {
-    // Aqui você pode alterar valores ou controlar com o menu
-    return orig_gameFunction(self);
-}
-
 // Função de inicialização executada automaticamente ao injetar o dylib
 void *init_mod(void *) {
-    // Aguarda o jogo carregar completamente os módulos principais
     sleep(2); 
 
-    // Substitua 0xSEU_OFFSET pelo offset real da função que você quer modificar
+    // Exemplo de uso prático para evitar variáveis não utilizadas
     uint64_t meuOffsetFixo = 0x123456; 
     void *targetAddress = (void *)getRealOffset(meuOffsetFixo);
-
-    // DobbyHook ou MSHookFunction para aplicar o gancho com segurança
-    // (Certifique-se de importar a biblioteca de hooking escolhida no Makefile)
+    
+    // Evita aviso de variável não utilizada enquanto você não coloca o hook real
+    (void)targetAddress; 
     
     return NULL;
 }
