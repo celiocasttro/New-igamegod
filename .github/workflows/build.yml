@@ -3,8 +3,6 @@ name: Build iOS Mod Menu
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -17,7 +15,7 @@ jobs:
     - name: Setup Theos
       run: |
         git clone --recursive https://github.com/theos/theos.git ~/theos
-        # Configura o SDK do iOS se necessário para compilação cruzada
+        # Baixa os SDKs essenciais para evitar erros de compilação
         git clone https://github.com/theos/sdks.git ~/theos/sdks
 
     - name: Build Package
