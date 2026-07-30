@@ -13,6 +13,7 @@ MeuModMenu_FILES = src/main.mm \
                   src/ImGui/imgui_widgets.cpp \
                   src/ImGui/backends/imgui_impl_metal.mm
 
+
 MeuModMenu_CFLAGS = -fobjc-arc -Wno-deprecated-declarations -Isrc -Isrc/ImGui
 MeuModMenu_LIBRARIES = substrate
 
