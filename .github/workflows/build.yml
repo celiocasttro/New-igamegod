@@ -12,21 +12,15 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Setup Theos & Packaging Tools
+    - name: Setup Theos & Environment
       run: |
-        git clone https://github.com/theos/theos.git ~/theos
+        git clone --recursive https://github.com/theos/theos.git ~/theos
         rm -rf ~/theos/sdks
         git clone https://github.com/theos/sdks.git ~/theos/sdks
-        # Instala o dpkg e ferramentas necessárias para o dm.pl via Homebrew
         brew install dpkg ldid
 
     - name: Build Package
       run: |
         export THEOS=~/theos
+        export PATH="$THEOS/bin:$PATH"
         make package
-
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ModMenu-Deb
-        path: packages/*.deb
