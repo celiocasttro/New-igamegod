@@ -1,43 +1,29 @@
 #import "ImGuiDrawView.h"
 #import "imgui.h"
-#import <QuartzCore/QuartzCore.h>
 
 @implementation ImGuiDrawView {
     bool showMenu;
     bool showFloatingButton;
     float gameSpeed;
     char searchBuffer[128];
-    CADisplayLink *displayLink;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.opaque = NO;
-        self.userInteractionEnabled = YES;
         showMenu = true;
         showFloatingButton = true;
         gameSpeed = 1.0f;
         memset(searchBuffer, 0, sizeof(searchBuffer));
-        
-        // Inicia o loop de atualização contínua para forçar o render da tela
-        displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(renderLoop:)];
-        [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     }
     return self;
 }
 
-- (void)renderLoop:(CADisplayLink *)sender {
-    // Força a view a redesenhar a cada frame do iOS
-    [self setNeedsDisplay];
+- (void)setupUI {
+    // Configurações iniciais de estilo da ImGui se necessário
 }
 
-- (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
-    [self drawView];
-}
-
+// Este é o método que o backend do Metal chama frame a frame de forma segura
 - (void)drawView {
     // 1. Botão Flutuante com a Engrenagem (⚙️)
     if (showFloatingButton && !showMenu) {
