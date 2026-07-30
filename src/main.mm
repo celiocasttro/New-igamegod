@@ -3,12 +3,11 @@
 
 static ImGuiDrawView *menuView = nil;
 
-// Hook para injetar a ImGui na janela real do jogo assim que ela for exibida
-%ctor {
+__attribute__((constructor))
+static void initialize() {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         UIWindow *targetWindow = nil;
         
-        // Procura por todas as janelas ativas da aplicação
         for (UIWindow *window in [UIApplication sharedApplication].windows) {
             if (window.rootViewController != nil) {
                 targetWindow = window;
