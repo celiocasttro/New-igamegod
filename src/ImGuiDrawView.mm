@@ -13,6 +13,7 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
+        self.userInteractionEnabled = YES; // Garante que o menu receba toques na tela
         showMenu = true;
         showFloatingButton = true;
         gameSpeed = 1.0f;
@@ -21,10 +22,19 @@
     return self;
 }
 
+// Sobrescreve para permitir toques passarem onde o menu não estiver aberto
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *hitView = [super hitTest:point withEvent:event];
+    if (hitView == self) {
+        return nil;
+    }
+    return hitView;
+}
+
 - (void)drawView {
     // 1. Botão Flutuante com a Engrenagem (⚙️)
     if (showFloatingButton && !showMenu) {
-        ImGui::SetNextWindowPos(ImVec2(30, 100), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos(ImVec2(50, 100), ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowSize(ImVec2(50, 50), ImGuiCond_FirstUseEver);
         
         ImGuiWindowFlags floatFlags = ImGuiWindowFlags_NoDecoration | 
@@ -32,7 +42,7 @@
                                       ImGuiWindowFlags_NoSavedSettings | 
                                       ImGuiWindowFlags_NoFocusOnAppearing;
                                       
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1f, 0.1f, 0.1f, 0.75f));
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1f, 0.1f, 0.1f, 0.8f));
         if (ImGui::Begin("##FloatingGearButton", nil, floatFlags)) {
             if (ImGui::Button("⚙️", ImVec2(40, 40))) {
                 showMenu = true;
@@ -42,8 +52,9 @@
         ImGui::PopStyleColor();
     }
 
-    // 2. Janela Principal do Mod Menu (Estilo Painel iGameGod)
+    // 2. Janela Principal do Mod Menu (Estilo iGameGod)
     if (showMenu) {
+        ImGui::SetNextWindowPos(ImVec2(50, 80), ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowSize(ImVec2(380, 300), ImGuiCond_FirstUseEver);
         
         if (ImGui::Begin("iGameGod", &showMenu, ImGuiWindowFlags_NoCollapse)) {
@@ -94,7 +105,7 @@
                     }
                     
                     ImGui::Spacing();
-                    ImGui::TextColored(ImVec4(0.0f, 0.8f, 1.0f, 1.0f), "Status: Running");
+                    ImGui::TextColored(ImVec4(0.0f, 0.8f, 1.0f, 1.0f), "Status: Active");
                     
                     ImGui::EndTabItem();
                 }
