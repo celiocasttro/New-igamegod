@@ -1,0 +1,9 @@
+Package: com.seuusuario.modmenu
+Name: Meu Mod Menu iOS
+Depends: mobilesubstrate, firmware (>= 14.0)
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Menu de modificação flutuante para jogos iOS.
+Maintainer: Célio Castro
+Author: Célio Castro
+Section: Tweaks
