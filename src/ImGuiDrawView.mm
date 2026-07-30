@@ -8,9 +8,11 @@
     char searchBuffer[128];
 }
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.opaque = NO;
         showMenu = true;
         showFloatingButton = true;
         gameSpeed = 1.0f;
@@ -19,11 +21,6 @@
     return self;
 }
 
-- (void)setupUI {
-    // Configurações iniciais de estilo da ImGui se necessário
-}
-
-// Este é o método que o backend do Metal chama frame a frame de forma segura
 - (void)drawView {
     // 1. Botão Flutuante com a Engrenagem (⚙️)
     if (showFloatingButton && !showMenu) {
