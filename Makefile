@@ -5,7 +5,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME := MeuModMenu
 
-MeuModMenu_FILES = src/main.cpp \
+MeuModMenu_FILES = src/main.mm \
                   src/ImGuiDrawView.mm \
                   src/ImGui/imgui.cpp \
                   src/ImGui/imgui_draw.cpp \
