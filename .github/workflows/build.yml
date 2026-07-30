@@ -1,26 +1,7 @@
-name: Build iOS Mod Menu
-
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  build:
-    runs-on: macos-latest
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-
-    - name: Setup Theos & Environment
-      run: |
-        git clone --recursive https://github.com/theos/theos.git ~/theos
-        rm -rf ~/theos/sdks
-        git clone https://github.com/theos/sdks.git ~/theos/sdks
-        brew install dpkg ldid
-
-    - name: Build Package
-      run: |
-        export THEOS=~/theos
-        export PATH="$THEOS/bin:$PATH"
-        make package
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: MeuModMenu-Deb
+        path: |
+          *.deb
+          packages/*.deb
