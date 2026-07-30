@@ -1,29 +1,20 @@
-#include <mach-o/dyld.h>
-#include <stdint.h>
-#include <unistd.h>
-#include <pthread.h>
+#import <UIKit/UIKit.h>
 
-// Função para calcular o endereço real lidando com a ASLR
-uint64_t getRealOffset(uint64_t offset) {
-    uint64_t slide = _dyld_get_image_vmaddr_slide(0);
-    return slide + offset;
-}
+// Esta função roda automaticamente assim que o Dylib é carregado pelo jogo
+__attribute__((constructor))
+static void initialize() {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Mod Menu"
+                                                                      message:@"Injetado com sucesso!"
+                                                               preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" 
+                                                           style:UIAlertActionStyleDefault 
+                                                         handler:nil];
+        [alert addAction:okAction];
 
-// Função de inicialização executada automaticamente ao injetar o dylib
-void *init_mod(void *) {
-    sleep(2); 
-
-    // Exemplo de uso prático para evitar variáveis não utilizadas
-    uint64_t meuOffsetFixo = 0x123456; 
-    void *targetAddress = (void *)getRealOffset(meuOffsetFixo);
-    
-    // Evita aviso de variável não utilizada enquanto você não coloca o hook real
-    (void)targetAddress; 
-    
-    return NULL;
-}
-
-__attribute__((constructor)) void entry() {
-    pthread_t thread;
-    pthread_create(&thread, NULL, init_mod, NULL);
+        // Obtém a janela ativa do app para exibir o alerta
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        [keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+    });
 }
